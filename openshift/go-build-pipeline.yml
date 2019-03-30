@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: go-pipeline
+spec:
+  strategy:
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        pipeline {
+          agent { label "master" }
+          stages {
+            stage("Clone Source") {
+              steps {
+                checkout([$class: 'GitSCM',
+                            branches: [[name: '*/master']],
+                            userRemoteConfigs: [[url: 'https://github.com/taylok/golang-ex.git']]
+                        ])
+              }
+            }
+            stage("Build Image") {
+              steps {
+                dir('') {
+                  sh 'oc start-build hello --from-dir . --follow'
+                }
+              }
+            }
+          }
+        }
+    type: JenkinsPipeline
+  triggers: []
