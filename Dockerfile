@@ -7,4 +7,4 @@ RUN go install
 ENV WEB_SERVER_PORT :8080
 EXPOSE $WEB_SERVER_PORT
 
-CMD ["/go/bin//hello"]
+CMD ["/go/bin/hello"]
